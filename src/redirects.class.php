@@ -70,7 +70,7 @@ class Redirects {
     }
 
     /**
-     * Set redirect type (301/301)
+     * Set redirect type (301/302/rewrite)
      * @param [string] $redirect_type
      */
     public function set_redirect_type($redirect_type)
@@ -101,7 +101,15 @@ class Redirects {
             }
 
             if(!empty($old_url) && !empty($new_url)) {
-                $this->redirects[] = 'Redirect' . ' ' . $this->redirect_type . ' ' . $old_url . ' ' . $new_url;
+
+                switch($this->redirect_type) {
+                    case 'rewrite' :
+                        $this->redirects[] = 'RewriteRule ^' . ltrim($old_url, '/') . '$' . ' ' . $new_url . ' ' . '[L,NC,R=301]';
+                        break;
+                    default :
+                        $this->redirects[] = 'Redirect' . ' ' . $this->redirect_type . ' ' . $old_url . ' ' . $new_url;
+                        break;
+                }
             }
         }
 
