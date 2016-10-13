@@ -20,7 +20,7 @@ $redirects->set_new_url_column(2);
 $redirects->set_redirect_type('301');
 ```
 
-If your CSV redirect doesn't contain an "old domain" then you can leave this as a blank string ''. Then we set the two columns for the CSV where the redirects are set. The columns start counting from 0. Finally we set the redirect type (301 or 302).
+If your CSV redirect doesn't contain an "old domain" then you can leave this as a blank string ''. Then we set the two columns for the CSV where the redirects are set. The columns start counting from 0. Finally we set the redirect type (301, 302 or rewrite).
 
 ###Generate Redirects and store them in a file.
 
