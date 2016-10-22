@@ -14,10 +14,10 @@ require('redirects.class.php');
 
 ```php
 $redirects = new Redirects('file.csv');
-$redirects->set_domain('http://example.com');
-$redirects->set_old_url_column(1);
-$redirects->set_new_url_column(2);
-$redirects->set_redirect_type('301');
+$redirects->setDomain('http://example.com');
+$redirects->setOldUrlColumn(1);
+$redirects->setNewUrlColumn(2);
+$redirects->setRedirectType('301');
 ```
 
 If your CSV redirect doesn't contain an "old domain" then you can leave this as a blank string ''. Then we set the two columns for the CSV where the redirects are set. The columns start counting from 0. Finally we set the redirect type (301, 302 or rewrite).
@@ -25,8 +25,8 @@ If your CSV redirect doesn't contain an "old domain" then you can leave this as 
 ###Generate Redirects and store them in a file.
 
 ```php
-$redirects->generate_redirects();
-$redirects->insert_to_file('redirects.txt');
+$redirects->generateRedirects();
+$redirects->insertToFile('redirects.txt');
 ```
 
 This will generate the redirects, and then insert them into the file we pass in.

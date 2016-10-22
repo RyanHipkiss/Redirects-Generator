@@ -22,31 +22,33 @@ class Redirects {
     function __construct($csv = null)
     {
         if($csv !== null) {
-
-            $csv = fopen($csv, 'r');
-
-            $line_counter = 1;
-            while(($line = fgetcsv($csv)) !== false) {
-                if($line_counter > 1) {
-
-                    foreach($line as $key => $value) {
-                        $line[$key] = utf8_decode($value);
-                    }
-
-                    $this->csv_values[] = $line;
-                }
-                $line_counter++;
-            }
-
-            fclose($csv);
+          $this->generateError('CSV not passed');
         }
+
+        $csv = fopen($csv, 'r');
+
+        $line_counter = 1;
+        while(($line = fgetcsv($csv)) !== false) {
+            if($line_counter > 1) {
+
+                foreach($line as $key => $value) {
+                    $line[$key] = utf8_decode($value);
+                }
+
+                $this->csv_values[] = $line;
+            }
+            $line_counter++;
+        }
+
+        fclose($csv);
+        return true;
     }
 
     /**
      * Set old domain, to remove from URLS
      * @param string $domain
      */
-    public function set_domain($domain)
+    public function setDomain($domain)
     {
         $this->domain = $domain;
     }
@@ -55,7 +57,7 @@ class Redirects {
      * Set column number in CSV for old urls
      * @param [int] $column_number
      */
-    public function set_old_url_column($column_number)
+    public function setOldUrlColumn($column_number)
     {
         $this->old_url_column = $column_number;
     }
@@ -64,7 +66,7 @@ class Redirects {
      * Set column number in CSV for new urls
      * @param [int] $column_number
      */
-    public function set_new_url_column($column_number)
+    public function setNewUrlColumn($column_number)
     {
         $this->new_url_column = $column_number;
     }
@@ -73,7 +75,7 @@ class Redirects {
      * Set redirect type (301/302/rewrite)
      * @param [string] $redirect_type
      */
-    public function set_redirect_type($redirect_type)
+    public function setRedirectType($redirect_type)
     {
         $this->redirect_type = $redirect_type;
     }
@@ -82,14 +84,14 @@ class Redirects {
      * Generate URS and return to user
      * @return [array] $this->redirects [array of the redirects]
      */
-    public function generate_redirects()
+    public function generateRedirects()
     {
         if(empty($this->csv_values)) {
-            return $this->generate_error('There are no CSV values');
+            return $this->generateError('There are no CSV values');
         }
 
         if(!is_array($this->csv_values)) {
-            return $this->generate_error('Values are not of correct format');
+            return $this->generateError('Values are not of correct format');
         }
 
         foreach($this->csv_values as $key => $row) {
@@ -120,7 +122,7 @@ class Redirects {
      * Put redirects in a file for quick viewing
      * @param  [string] $file [File to store redirects]
      */
-    public function insert_to_file($file)
+    public function insertToFile($file)
     {
         if(!empty($this->redirects)) {
 
@@ -136,7 +138,7 @@ class Redirects {
      * Shows an error to the user.
      * @param  [string] $error [Erorr Message]
      */
-    public function generate_error($error = null)
+    public function generateError($error = null)
     {
         if($error !== null) {
             die($error);
