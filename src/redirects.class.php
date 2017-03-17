@@ -9,6 +9,7 @@
 
 class Redirects {
     public $domain = '',
+           $new_domain = '',
            $old_url_column,
            $new_url_column,
            $redirect_type,
@@ -21,7 +22,7 @@ class Redirects {
      */
     function __construct($csv = null)
     {
-        if($csv !== null) {
+        if($csv == null) {
           $this->generateError('CSV not passed');
         }
 
@@ -51,6 +52,15 @@ class Redirects {
     public function setDomain($domain)
     {
         $this->domain = $domain;
+    }
+
+    /**
+     * Set new domain, (allows redirect to HTTPS etc)
+     * @param string $domain
+     */
+    public function setNewDomain($domain)
+    {
+        $this->new_domain = $domain;
     }
 
     /**
@@ -101,6 +111,8 @@ class Redirects {
             if(strpos($old_url, $this->domain) !== false) {
                 $old_url = str_replace($this->domain, '', $old_url);
             }
+
+            $new_url = $this->new_domain . $new_url;
 
             if(!empty($old_url) && !empty($new_url)) {
 
